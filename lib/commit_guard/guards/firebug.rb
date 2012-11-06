@@ -22,13 +22,18 @@ module CommitGuard
 
       def description
         if valid?
+          valid_description
         else
-          failure_description
+          invalid_description
         end
       end
 
       private
-      def failure_description
+      def valid_description
+        "Check OK"
+      end
+
+      def invalid_description
         "Check failed\n #{result.split("\n").map {|x| "-- #{x}"}.join("\n")}"
       end
     end
