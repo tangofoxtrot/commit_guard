@@ -13,7 +13,7 @@ module CommitGuard
       end
 
       def call
-        @result ||= `fgrep -R #{options['regex']} -s #{path.join(options['path'].join(' '))}`
+        @result ||= `fgrep -R #{options['regex']} -s #{path.join(paths)}`
       end
 
       def title
@@ -29,6 +29,11 @@ module CommitGuard
       end
 
       private
+
+      def paths
+        Array(options['path']).join(" ")
+      end
+
       def valid_description
         "Check OK"
       end

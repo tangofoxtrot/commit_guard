@@ -34,8 +34,15 @@ describe CommitGuard::Guards::Grep do
       guard.description.should include("Check failed: #{options['regex']}")
     end
 
-    it 'returns the matching files in the invalid description' do
-      guard.description.should include("features/login.feature")
+    describe 'finding matches' do
+      it 'returns the matching files in the invalid description' do
+        guard.description.should include("features/login.feature")
+      end
+
+      it 'works when given one path' do
+        guard = described_class.new(dir, options.merge('path' => 'features'))
+        guard.description.should include("features/login.feature")
+      end
     end
 
   end
