@@ -18,3 +18,7 @@ end
 def valid_project
   fixture_path('valid_project')
 end
+
+def home_dir
+  fixture_path('home')
+end

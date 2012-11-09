@@ -1,0 +1,6 @@
+---
+guards:
+- type: regex
+  path:
+  - features
+  regex: ! '@firebug'
