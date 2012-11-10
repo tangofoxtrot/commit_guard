@@ -29,7 +29,7 @@ describe CommitGuard::Guardian do
         guardian.should be_success
       end
     end
-    
+
     context 'when all the guards are not valid' do
       before do
         guardian.guards.replace([stub(:valid? => false), stub(:valid? => true)])
