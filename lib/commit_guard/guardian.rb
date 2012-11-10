@@ -15,6 +15,10 @@ module CommitGuard
       !guards.map(&:valid?).compact.include?(false)
     end
 
+    def results
+      guards.each(&:display)
+    end
+
     private
 
     def initialize_guards

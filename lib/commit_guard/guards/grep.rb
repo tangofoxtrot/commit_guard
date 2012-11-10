@@ -28,6 +28,11 @@ module CommitGuard
         end
       end
 
+      def display
+        p title
+        p description
+      end
+
       private
 
       def paths

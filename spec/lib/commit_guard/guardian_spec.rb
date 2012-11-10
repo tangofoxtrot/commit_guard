@@ -19,6 +19,14 @@ describe CommitGuard::Guardian do
     end
   end
 
+  describe 'results' do
+    it 'calls display on all guards' do
+      guard = guardian.guards.first
+      guard.should_receive(:display)
+      guardian.results
+    end
+  end
+
   describe 'success?' do
     context 'when all the guards are valid' do
       before do
