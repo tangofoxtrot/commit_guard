@@ -45,12 +45,5 @@ describe CommitGuard::Guards::Grep do
       end
     end
 
-    describe 'display' do
-      it 'outputs the title and description' do
-        guard.should_receive(:p).with(guard.title)
-        guard.should_receive(:p).with(guard.description)
-        guard.display
-      end
-    end
   end
 end

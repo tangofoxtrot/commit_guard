@@ -1,6 +1,6 @@
 ---
 guards:
-- type: regex
+- type: grep
   path:
   - features
   regex: ! '@firebug'
