@@ -5,10 +5,11 @@ describe CommitGuard::Guards::Grep do
     {'path' => ['features'], 'regex' => '@firebug'  }
   end
 
-  let(:guard) { described_class.new(dir, options) }
+  let(:dir) { valid_project }
+  let(:configuration) { stub(:working_dir => dir) }
+  let(:guard) { described_class.new(configuration, options) }
 
   context 'given a valid directory' do
-    let(:dir) { valid_project }
 
     it 'is valid' do
       guard.should be_valid
@@ -40,10 +41,15 @@ describe CommitGuard::Guards::Grep do
       end
 
       it 'works when given one path' do
-        guard = described_class.new(dir, options.merge('path' => 'features'))
+        guard = described_class.new(configuration, options.merge('path' => 'features'))
         guard.description.should include("features/login.feature")
       end
     end
+  end
 
+  describe '#paths' do
+    it 'returns an array of full paths' do
+      guard.paths.should == [dir.join(options['path'].first)]
+    end
   end
 end

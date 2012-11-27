@@ -1,6 +1,6 @@
 module CommitGuard
   class Guardian
-    attr_reader :guards
+    attr_reader :guards, :configuration
     def initialize(configuration)
       @configuration = configuration
       @guards = []
@@ -28,7 +28,7 @@ module CommitGuard
     end
 
     def initialize_guard(guard_config)
-      CommitGuard::Guards.const_get(guard_config['type'].capitalize).new(guard_config)
+      CommitGuard::Guards.const_get(guard_config['type'].capitalize).new(configuration, guard_config)
     end
   end
 end

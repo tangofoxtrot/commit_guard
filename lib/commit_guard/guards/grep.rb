@@ -1,7 +1,7 @@
 module CommitGuard
   module Guards
     class Grep < Base
-      attr_reader :path, :options, :result
+      attr_reader :options, :result
 
       def valid?
         call
@@ -13,7 +13,7 @@ module CommitGuard
       end
 
       def call
-        @result ||= `fgrep -R #{options['regex']} -s #{path.join(paths)}`
+        @result ||= `fgrep -R #{options['regex']} -s #{paths.join(" ")}`
       end
 
       def title
@@ -28,10 +28,14 @@ module CommitGuard
         end
       end
 
+      def paths
+        Array(options['path']).map {|path| working_dir.join(path) }
+      end
+
       private
 
-      def paths
-        Array(options['path']).join(" ")
+      def working_dir
+        configuration.working_dir
       end
 
       def valid_description

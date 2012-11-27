@@ -2,10 +2,10 @@ require 'yaml'
 module CommitGuard
   class Configuration
     CONFIG_FILENAME = '.commit_guard.yml'
-    attr_reader :guards
-    def initialize(home_dir, project_path)
+    attr_reader :guards, :working_dir
+    def initialize(home_dir, working_dir)
       @home = home_dir
-      @project_path = project_path
+      @working_dir = working_dir
       @guards = []
       load_config
     end
@@ -13,7 +13,7 @@ module CommitGuard
     private
 
     def load_config
-      [@home, @project_path].each do |dir|
+      [@home, @working_dir].each do |dir|
         begin
           process_options(YAML.load_file(dir.join(CONFIG_FILENAME)))
         rescue Errno::ENOENT
