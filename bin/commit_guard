@@ -1,0 +1,11 @@
+#!/usr/bin/env ruby
+
+require 'optparse'
+require 'commit_guard'
+options = {}
+
+OptionParser.new do |opts|
+  opts.banner = "Usage: commit_guard [options]"
+end
+
+CommitGuard::Runner.new(ARGV[0])
