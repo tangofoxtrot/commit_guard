@@ -8,7 +8,8 @@ module CommitGuard
     end
 
     def run
-      guards.each(&:call)
+      guards.each(&:run)
+      results
     end
 
     def success?
@@ -16,7 +17,9 @@ module CommitGuard
     end
 
     def results
-      guards.each(&:display)
+      guards.each do |guard|
+        configuration.output.puts guard.display
+      end
     end
 
     private

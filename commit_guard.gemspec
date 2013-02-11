@@ -8,8 +8,8 @@ Gem::Specification.new do |gem|
   gem.version       = CommitGuard::VERSION
   gem.authors       = ["Richard Luther"]
   gem.email         = ["richard.luther@gmail.com"]
-  gem.description   = %q{TODO: Write a gem description}
-  gem.summary       = %q{TODO: Write a gem summary}
+  gem.description   = %q{Ruby library for preventing unwanted code from being committed}
+  gem.summary       = %q{Ruby library for preventing unwanted code from being committed}
   gem.homepage      = ""
 
   gem.files         = `git ls-files`.split($/)

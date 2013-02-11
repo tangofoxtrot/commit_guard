@@ -17,4 +17,20 @@ describe CommitGuard::Runner do
       runner.run
     end
   end
+
+  describe '#exit_status' do
+    context 'given a successful run' do
+      it 'returns 0' do
+        runner.guardian.stub(:success? => true)
+        runner.exit_status.should == 0
+      end
+    end
+
+    context 'given an unsuccessful run' do
+      it 'returns 1' do
+        runner.guardian.stub(:success? => false)
+        runner.exit_status.should == 1
+      end
+    end
+  end
 end

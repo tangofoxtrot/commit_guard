@@ -2,13 +2,15 @@ require 'yaml'
 module CommitGuard
   class Configuration
     CONFIG_FILENAME = '.commit_guard.yml'
-    attr_reader :guards, :working_dir, :home_dir
+    attr_reader :guards, :working_dir, :home_dir, :output
     def initialize(home_dir, working_dir)
       @home_dir = home_dir
       @working_dir = working_dir
       @guards = []
+      @output = $stdout
       load_config
     end
+
 
     private
 

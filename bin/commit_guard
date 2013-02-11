@@ -8,4 +8,7 @@ OptionParser.new do |opts|
   opts.banner = "Usage: commit_guard [options]"
 end
 
-CommitGuard::Runner.new(ARGV[0])
+runner = CommitGuard::Runner.new(ARGV[0])
+runner.run
+
+exit runner.exit_status

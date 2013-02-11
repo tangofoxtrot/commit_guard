@@ -4,16 +4,15 @@ module CommitGuard
       attr_reader :options, :result
 
       def valid?
-        call
-        result.length == 0
+        call.result.length == 0
       end
 
       def invalid?
         !valid?
       end
 
-      def call
-        @result ||= `fgrep -R #{options['regex']} -s #{paths.join(" ")}`
+      def display
+        "#{title}\n#{description}"
       end
 
       def title
@@ -32,7 +31,16 @@ module CommitGuard
         Array(options['path']).map {|path| working_dir.join(path) }
       end
 
+      def run
+        call
+      end
+
       private
+
+      def call
+        @result ||= `fgrep -R #{options['regex']} -s #{paths.join(" ")}`
+        self
+      end
 
       def working_dir
         configuration.working_dir

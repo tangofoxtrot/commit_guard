@@ -52,4 +52,10 @@ describe CommitGuard::Guards::Grep do
       guard.paths.should == [dir.join(options['path'].first)]
     end
   end
+
+  describe '#display' do
+    it 'returns the title and description' do
+      guard.display.should == "#{guard.title}\n#{guard.description}"
+    end
+  end
 end

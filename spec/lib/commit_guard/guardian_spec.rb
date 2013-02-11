@@ -1,7 +1,8 @@
 require 'spec_helper'
 
 describe CommitGuard::Guardian do
-  let(:configuration) { stub(:guards => [{'type' => 'grep'}]) }
+  let(:output) { stub(:puts => nil) }
+  let(:configuration) { stub(:output => output, :guards => [{'type' => 'grep'}]) }
   let(:guardian) { described_class.new(configuration) }
 
   describe 'initializing a new guardian' do
@@ -14,7 +15,13 @@ describe CommitGuard::Guardian do
   describe 'run' do
     it 'calls call on all guards' do
       guard = guardian.guards.first
-      guard.should_receive(:call)
+      guard.should_receive(:run)
+      guardian.run
+    end
+
+    it 'calls display on all guards' do
+      guard = guardian.guards.first
+      guard.should_receive(:display)
       guardian.run
     end
   end

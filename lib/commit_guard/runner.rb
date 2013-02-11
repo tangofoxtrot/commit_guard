@@ -11,5 +11,9 @@ module CommitGuard
       guardian.run
     end
 
+    def exit_status
+      guardian.success? ? 0 : 1
+    end
+
   end
 end
