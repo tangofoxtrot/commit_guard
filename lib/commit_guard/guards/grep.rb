@@ -39,7 +39,7 @@ module CommitGuard
       private
 
       def call
-        @result ||= `fgrep -R #{options['regex']} -s #{paths.join(" ")}`
+        @result ||= `fgrep -R -n #{options['regex']} -s #{paths.join(" ")}`
         self
       end
 
@@ -48,7 +48,7 @@ module CommitGuard
       end
 
       def valid_description
-        "Check OK".colorize(:green)
+        "Check OK #{options['regex']}".colorize(:green)
       end
 
       def invalid_description
