@@ -1,3 +1,4 @@
+require 'colorize'
 module CommitGuard
   module Guards
     class Grep < Base
@@ -47,11 +48,11 @@ module CommitGuard
       end
 
       def valid_description
-        "Check OK"
+        "Check OK".colorize(:green)
       end
 
       def invalid_description
-        "Check failed: #{options['regex']}\n #{result.split("\n").map {|x| "-- #{x}"}.join("\n")}"
+        "Check failed: #{options['regex']}\n #{result.split("\n").map {|x| "-- #{x}"}.join("\n")}".colorize(:red)
       end
     end
   end
