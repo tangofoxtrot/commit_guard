@@ -5,10 +5,10 @@ require 'commit_guard'
 options = {}
 
 OptionParser.new do |opts|
-  opts.banner = "Usage: commit_guard [options]"
+  opts.banner = "Usage: commit_guard [project_path] [options]"
 end
-
-runner = CommitGuard::Runner.new(ARGV[0])
+project_path =  ARGV[0] || ENV['PWD']
+runner = CommitGuard::Runner.new(project_path)
 runner.run
 
 exit runner.exit_status
