@@ -17,12 +17,20 @@ module CommitGuard
     end
 
     def results
-      guards.each do |guard|
+      guards_for_output.each do |guard|
         configuration.output.puts guard.display
       end
     end
 
     private
+
+    def guards_for_output
+      if configuration.silent?
+         guards.select(&:invalid?)
+      else
+        guards
+      end
+    end
 
     def initialize_guards
       @configuration.guards.each do |guard|

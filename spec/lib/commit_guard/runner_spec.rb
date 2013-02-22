@@ -1,11 +1,19 @@
 require 'spec_helper'
 
 describe CommitGuard::Runner do
-  let(:runner) { described_class.new(valid_project) }
+  let(:options) do
+    {:silent => true}
+  end
+  let(:runner) { described_class.new(valid_project, options) }
   describe 'initializing a new runner' do
     it 'builds a configuration using the home dir' do
       runner.configuration.home_dir.to_s.should == ENV['HOME']
     end
+
+    it 'passes any options to the configuration object' do
+      runner.configuration.should be_silent
+    end
+
     it 'initializes a new guardian with the configuration' do
       runner.guardian.configuration.should == runner.configuration
     end

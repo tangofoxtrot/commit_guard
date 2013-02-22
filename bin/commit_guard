@@ -6,9 +6,13 @@ options = {}
 
 OptionParser.new do |opts|
   opts.banner = "Usage: commit_guard [project_path] [options]"
+  opts.on('-s', '--silent', 'Run the commit guard without passing guard output') do |v|
+    options[:silent] = true
+  end
 end
+
 project_path =  ARGV[0] || ENV['PWD']
-runner = CommitGuard::Runner.new(project_path)
+runner = CommitGuard::Runner.new(project_path, options)
 runner.run
 
 exit runner.exit_status
