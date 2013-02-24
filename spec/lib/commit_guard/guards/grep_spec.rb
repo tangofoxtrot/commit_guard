@@ -36,6 +36,12 @@ describe CommitGuard::Guards::Grep do
     end
 
     describe 'finding matches' do
+      context 'when given paths to exclude' do
+        it 'excludes those matching directories from the search' do
+          options['exclude'] = ['features/*']
+          guard.description.should_not include("features/login.feature")
+        end
+      end
       it 'returns the matching files in the invalid description' do
         guard.description.should include("features/login.feature")
       end

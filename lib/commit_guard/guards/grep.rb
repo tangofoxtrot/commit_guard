@@ -39,8 +39,16 @@ module CommitGuard
       private
 
       def call
-        @result ||= `fgrep -R -n #{options['regex']} -s #{paths.join(" ")}`
+        @result ||= `fgrep -R -n #{options['regex']} -s #{paths.join(" ")} #{exclude_dir_options}`
         self
+      end
+
+      def exclude_dirs
+        Array(options['exclude'])
+      end
+
+      def exclude_dir_options
+        exclude_dirs.map{|x| "| grep -v #{x}" }.join(' ')
       end
 
       def working_dir

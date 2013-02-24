@@ -4,6 +4,7 @@ describe CommitGuard::Runner do
   let(:options) do
     {:silent => true}
   end
+
   let(:runner) { described_class.new(valid_project, options) }
   describe 'initializing a new runner' do
     it 'builds a configuration using the home dir' do
