@@ -17,19 +17,33 @@ module CommitGuard
       @options[:silent]
     end
 
+    def save
+      File.open(home_dir, 'w') {|f| f.puts home_config.to_yaml }
+      File.open(working_dir, 'w') {|f| f.puts working_dir_config.to_yaml }
+    end
+
     private
 
     def load_config
-      [@home_dir, @working_dir].each do |dir|
-        begin
-          process_options(YAML.load_file(dir.join(CONFIG_FILENAME)))
-        rescue Errno::ENOENT
-        end
+      [home_config, working_dir_config].each do |config|
+        process_options(config)
       end
     end
 
+    def home_config
+      @home_config ||= YAML.load_file(home_dir.join(CONFIG_FILENAME))
+    rescue Errno::ENOENT
+      {}
+    end
+
+    def working_dir_config
+      @working_dir_config ||= YAML.load_file(working_dir.join(CONFIG_FILENAME))
+    rescue Errno::ENOENT
+      {}
+    end
+
     def process_options(options)
-      @guards.concat options['guards']
+      @guards.concat Array(options['guards'])
     end
   end
 end
