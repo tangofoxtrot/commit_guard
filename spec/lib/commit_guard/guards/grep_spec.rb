@@ -70,17 +70,17 @@ describe CommitGuard::Guards::Grep do
     let(:builder) { described_class.builder }
 
     it 'has a pattern property' do
-      builder.properties(:pattern).should be_required
+      builder.property_for(:pattern).should be_required
     end
 
     it 'has a path property' do
-      builder.properties(:path).should be_required
-      builder.properties(:path).should be_multiple
+      builder.property_for(:path).should be_required
+      builder.property_for(:path).should be_multiple
     end
 
     it 'has an exclude property' do
-      builder.properties(:exclude).should_not be_required
-      builder.properties(:exclude).should be_multiple
+      builder.property_for(:exclude).should_not be_required
+      builder.property_for(:exclude).should be_multiple
     end
 
   end

@@ -3,51 +3,6 @@ module CommitGuard
   module Guards
     class Grep < Base
       attr_reader :options, :result
-      class Builder
-        class Property
-          attr_reader :name
-          def initialize *attributes
-            @name = attributes.shift
-            @options = attributes.last
-          end
-
-          def required?
-            @options[:required] || false
-          end
-
-          def multiple?
-            @options[:multiple] || false
-          end
-        end
-        def initialize(clazz)
-          @clazz = clazz
-          @properties = []
-        end
-
-        def config &block
-          instance_eval &block
-        end
-
-        def property *args
-          @properties << Property.new(*args)
-        end
-
-        def properties(name)
-          @properties.detect {|x| x.name == name }
-        end
-      end
-
-      class << self
-        def build &block
-          @builder ||= Builder.new(self)
-          @builder.config &block
-        end
-
-        def builder
-          @builder
-        end
-
-      end
 
       build do
         property :pattern, :description => 'Grep pattern', :required => true

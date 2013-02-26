@@ -1,4 +1,6 @@
 require "commit_guard/version"
+require "commit_guard/guard_builder"
+require "commit_guard/guard_property"
 require "commit_guard/guards/base"
 require "commit_guard/guards/grep"
 require "commit_guard/guardian"
