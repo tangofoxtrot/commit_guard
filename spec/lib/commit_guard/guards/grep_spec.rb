@@ -64,4 +64,24 @@ describe CommitGuard::Guards::Grep do
       guard.display.should == "#{guard.title}\n#{guard.description}"
     end
   end
+
+
+  describe '.builder' do
+    let(:builder) { described_class.builder }
+
+    it 'has a pattern property' do
+      builder.properties(:pattern).should be_required
+    end
+
+    it 'has a path property' do
+      builder.properties(:path).should be_required
+      builder.properties(:path).should be_multiple
+    end
+
+    it 'has an exclude property' do
+      builder.properties(:exclude).should_not be_required
+      builder.properties(:exclude).should be_multiple
+    end
+
+  end
 end
