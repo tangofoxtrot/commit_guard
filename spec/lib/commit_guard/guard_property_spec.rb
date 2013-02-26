@@ -40,4 +40,30 @@ describe CommitGuard::GuardProperty do
     end
   end
 
+  describe '#valid?' do
+    context 'when the property not required' do
+      context 'and the value is blank' do
+        it 'is not valid' do
+          property.should_not be_valid
+        end
+      end
+
+      context 'and the value is not blank' do
+        it 'is valid' do
+          property.value = 'awesome'
+          property.should be_valid
+        end
+      end
+
+    end
+    context 'when the property is not required' do
+      before { property.stub(:required? => false) }
+
+      it 'is always valid' do
+        property.should be_valid
+      end
+
+    end
+  end
+
 end

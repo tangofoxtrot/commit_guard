@@ -24,7 +24,21 @@ module CommitGuard
       end
     end
 
+    def valid?
+      if required?
+        has_value?
+      else
+        true
+      end
+    end
+
+
     private
+
+    def has_value?
+      multiple? ? !value.empty? : value.present?
+    end
+
     def option_for(key)
       @options && @options[key]
     end
