@@ -22,4 +22,22 @@ describe CommitGuard::GuardProperty do
     end
   end
 
+  describe '#value=' do
+    context 'for a multiple property' do
+      it 'appends the value of the property' do
+        property.value = 'something'
+        property.value = 'else'
+        property.value.should == ['something', 'else']
+      end
+    end
+
+    context 'for a non multiple property' do
+      before { property.stub(:multiple? => false) }
+      it 'sets the value of the property' do
+        property.value = 'something'
+        property.value.should == 'something'
+      end
+    end
+  end
+
 end
