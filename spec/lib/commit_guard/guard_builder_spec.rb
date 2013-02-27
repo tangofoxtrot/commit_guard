@@ -38,9 +38,9 @@ describe CommitGuard::GuardBuilder do
     end
   end
 
-  describe '#remove' do
-    it 'removes the property' do
-      builder.remove(:thing)
+  describe '#remove_property' do
+    it 'remove_propertys the property' do
+      builder.remove_property(:thing)
       builder.property_for(:something).should be_nil
     end
   end
@@ -49,6 +49,17 @@ describe CommitGuard::GuardBuilder do
     it 'sets the value of the property' do
       builder.set(:thing, 1)
       builder.value(:thing).should == 1
+    end
+  end
+
+  describe '#remove' do
+    it 'removes the value of the property' do
+      builder.property(:more_things, :multiple => true)
+
+      builder.set(:more_things, 'a')
+      builder.set(:more_things, 'b')
+      builder.remove(:more_things, 1)
+      builder.value(:more_things).should == ['a']
     end
   end
 end

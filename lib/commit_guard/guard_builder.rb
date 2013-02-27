@@ -15,12 +15,16 @@ module CommitGuard
       properties.detect {|x| x.name == name }
     end
 
-    def remove(name)
+    def remove_property(name)
       properties.delete(property_for(name))
     end
 
     def set(name, value)
       property_for(name).value = value
+    end
+
+    def remove(name, index=nil)
+      property_for(name).remove(index)
     end
 
     def value(name)

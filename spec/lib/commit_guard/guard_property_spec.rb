@@ -40,6 +40,26 @@ describe CommitGuard::GuardProperty do
     end
   end
 
+  describe '#remove' do
+    context 'for a multiple property' do
+      it 'removes the value at that index' do
+        property.value = 'a'
+        property.value = 'b'
+        property.remove 1
+        property.value.should == ['a']
+      end
+    end
+
+    context 'for a non multiple property' do
+      before { property.stub(:multiple? => false) }
+      it 'sets the value to nil' do
+        property.remove
+        property.value.should be_nil
+      end
+    end
+
+  end
+
   describe '#valid?' do
     context 'when the property not required' do
       context 'and the value is blank' do

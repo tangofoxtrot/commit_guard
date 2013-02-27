@@ -32,6 +32,14 @@ module CommitGuard
       end
     end
 
+    def remove(index=nil)
+      if multiple?
+        @value.delete_at(index)
+      else
+        @value = nil
+      end
+    end
+
 
     private
 
