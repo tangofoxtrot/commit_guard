@@ -1,12 +1,18 @@
 require 'spec_helper'
 
 describe CommitGuard::GuardProperty do
-  let(:args) { [:thingy, {:required => true, :multiple => true}] }
+  let(:args) { [:thingy, {:required => true, :multiple => true, :description => 'Some Description'}] }
   let(:property) { described_class.new(*args) }
 
   describe '#name' do
     it 'is set to the first argument' do
       property.name.should == :thingy
+    end
+  end
+
+  describe '#description' do
+    it 'outputs the description from the options' do
+      property.description.should == 'Some Description'
     end
   end
 

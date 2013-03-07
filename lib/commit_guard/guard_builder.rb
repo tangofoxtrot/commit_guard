@@ -7,6 +7,10 @@ module CommitGuard
       @properties = []
     end
 
+    def name
+      for_class.name
+    end
+
     def property(*args)
       properties << GuardProperty.new(*args)
     end

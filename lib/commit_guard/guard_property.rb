@@ -40,6 +40,10 @@ module CommitGuard
       end
     end
 
+    def description
+      option_for :description
+    end
+
 
     private
 

@@ -14,6 +14,12 @@ describe CommitGuard::GuardBuilder do
     end
   end
 
+  describe '#name' do
+    it 'returns the name of the class' do
+      builder.name.should == 'MyGuard'
+    end
+  end
+
   describe '#property' do
     it 'builds a new property for the builder' do
       expect {
