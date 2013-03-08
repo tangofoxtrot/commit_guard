@@ -27,7 +27,14 @@ module CommitGuard
     end
 
     def prompt_for_property(property)
-      property.value = highline.ask "#{property.name} (#{property.description}) :"
+      prompt = Proc.new do
+        highline.ask "#{property.name} (#{property.description}) :"
+      end
+      property.value = prompt.call
+      until property.valid?
+        highline.say "#{property.name} is required".colorize(:red)
+        property.value = prompt.call
+      end
     end
 
   end

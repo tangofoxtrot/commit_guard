@@ -48,7 +48,15 @@ module CommitGuard
     private
 
     def has_value?
-      multiple? ? !value.empty? : value.present?
+      if multiple?
+        value.any? {|x| value_present?(x) }
+      else
+        value_present?(value)
+      end
+    end
+
+    def value_present?(the_value)
+      the_value.to_s.strip != ''
     end
 
     def option_for(key)

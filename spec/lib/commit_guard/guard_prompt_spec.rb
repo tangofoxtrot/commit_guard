@@ -46,21 +46,44 @@ describe CommitGuard::GuardPrompt do
   describe '#prompt_for_property' do
     let(:property) { prompt.builder.properties.first }
 
-    before do
-      prompt.builder = StubGuard.builder
-      answer_with('some answer')
+    context 'given a valid answer' do
+      before do
+        prompt.builder = StubGuard.builder
+        answer_with('some answer')
+      end
+
+      it 'prompts the user for the given property' do
+        prompt.prompt_for_property(property)
+
+        output.string.should include("#{property.name} (#{property.description}) :")
+      end
+      it 'stores the user input in the property' do
+        prompt.prompt_for_property(property)
+
+        property.value.should == 'some answer'
+      end
     end
 
-    it 'prompts the user for the given property' do
-      prompt.prompt_for_property(property)
+    context 'when given an invalid value for a required property' do
+      before do
+        prompt.builder = StubGuard.builder
+      end
 
-      output.string.should include("#{property.name} (#{property.description}) :")
-    end
+      it 'tells the user that the property is required' do
 
-    it 'stores the user input in the property' do
-      prompt.prompt_for_property(property)
+        prompt.highline.stub(:ask).and_return('', 'correct')
+        prompt.prompt_for_property(property)
 
-      property.value.should == 'some answer'
+        output.string.should include("#{property.name} is required")
+      end
+
+      it 'reprompts the user until they answer correctly' do
+        prompt.highline.should_receive(:ask).exactly(4).times.and_return(nil, '', '  ', 'correct')
+
+        prompt.prompt_for_property(property)
+
+        output.string.should include("#{property.name} is required")
+      end
     end
   end
   # choose a guard

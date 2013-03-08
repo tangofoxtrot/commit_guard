@@ -71,6 +71,12 @@ describe CommitGuard::GuardProperty do
       context 'and the value is blank' do
         it 'is not valid' do
           property.should_not be_valid
+          property.value = ''
+          property.should_not be_valid
+          property.value = nil
+          property.should_not be_valid
+          property.value = '   '
+          property.should_not be_valid
         end
       end
 
