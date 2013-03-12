@@ -64,6 +64,18 @@ describe CommitGuard::GuardPrompt do
       end
     end
 
+    context 'when given a multiple property' do
+      let(:property) { prompt.builder.properties[1] }
+      it 'reprompts the user until they enter a blank value' do
+        prompt.builder = StubGuard.builder
+        prompt.highline.should_receive(:ask).exactly(2).times.and_return('pizza', '')
+
+        prompt.prompt_for_property(property)
+
+        output.string.should include("#{property.name}: Add additional values (leave blank when finished)")
+      end
+    end
+
     context 'when given an invalid value for a required property' do
       before do
         prompt.builder = StubGuard.builder
@@ -83,6 +95,42 @@ describe CommitGuard::GuardPrompt do
         prompt.prompt_for_property(property)
 
         output.string.should include("#{property.name} is required")
+      end
+    end
+  end
+
+  describe '#confirm' do
+    before do
+      prompt.builder = StubGuard.builder
+    end
+
+    it "asks the user if they would like to continue" do
+      answer_with('n')
+      prompt.confirm
+      output.string.should include("Would you like to save this Guard? (Y/N)")
+    end
+
+    it "includes the preview of the guard" do
+      answer_with('n')
+      prompt.builder.stub(:preview => 'Guard preview')
+      prompt.confirm
+      output.string.should include("Guard preview")
+    end
+
+
+    context "the user does not want to continue" do
+      it "does not call prompt_to_save" do
+        answer_with('n')
+        prompt.should_not_receive(:prompt_to_save)
+        prompt.confirm
+      end
+    end
+
+    context "the user wants to save" do
+      it "calls prompt_to_save" do
+        answer_with('y')
+        prompt.should_receive(:prompt_to_save)
+        prompt.confirm
       end
     end
   end

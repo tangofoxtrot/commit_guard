@@ -35,6 +35,15 @@ module CommitGuard
       property_for(name).value
     end
 
+    def preview
+      preview_output = []
+      preview_output <<  ['Name', name]
+      properties.each do |property|
+        preview_output << ["Property (#{property.name})", property.value]
+      end
+      preview_output
+    end
+
     def config &block
       instance_eval &block
     end

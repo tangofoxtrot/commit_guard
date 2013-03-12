@@ -68,4 +68,26 @@ describe CommitGuard::GuardBuilder do
       builder.value(:more_things).should == ['a']
     end
   end
+
+
+  describe '#preview' do
+    it 'includes the name of the guard' do
+      builder.preview[0].should == ['Name', builder.name]
+    end
+
+    it 'includes all properties' do
+      builder.preview.length.should == builder.properties.length + 1
+      property = builder.properties[0]
+      builder.preview[1].should == ["Property (#{property.name})", property.value]
+    end
+
+    it 'includes all values for multiple properties' do
+      builder.property(:more_things, :multiple => true)
+
+      builder.set(:more_things, 'a')
+      builder.set(:more_things, 'b')
+      property = builder.properties.last
+      builder.preview.last[1].should == ['a', 'b']
+    end
+  end
 end

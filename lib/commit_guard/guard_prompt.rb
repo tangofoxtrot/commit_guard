@@ -26,6 +26,18 @@ module CommitGuard
       end
     end
 
+    def confirm
+      highline.say builder.preview
+      result = highline.ask "Would you like to save this Guard? (Y/N)"
+      if result.upcase == 'Y'
+        prompt_to_save
+      end
+    end
+
+    def prompt_to_save
+
+    end
+
     def prompt_for_property(property)
       prompt = Proc.new do
         highline.ask "#{property.name} (#{property.description}) :"
@@ -34,6 +46,14 @@ module CommitGuard
       until property.valid?
         highline.say "#{property.name} is required".colorize(:red)
         property.value = prompt.call
+      end
+      if property.multiple?
+        highline.say "#{property.name}: Add additional values (leave blank when finished)"
+        value = prompt.call
+        until value == ''
+          property.value = value
+          value = prompt.call
+        end
       end
     end
 
