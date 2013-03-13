@@ -162,13 +162,13 @@ describe CommitGuard::GuardPrompt do
       end
     end
   end
-  # choose a guard
-  # store the guard builder in the prompt object
-  # Iterate over the guard builder's properties
-  # prompt the user for input for each property
-  # if a property is required do not let the user continue without input
-  # if the property is multiple ask if they want to add more
-  # when all properties are entered display a summary of the guard
-  # ask if they want to save it
-  # if yes then ask where to store it (home or current path)
+
+  describe '#perform' do
+    it 'prompts the user to build up a guard' do
+      prompt.should_receive(:choose_guard).ordered.with([CommitGuard::Guards::Grep])
+      prompt.should_receive(:populate).ordered
+      prompt.should_receive(:confirm).ordered
+      prompt.perform
+    end
+  end
 end

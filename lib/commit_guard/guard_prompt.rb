@@ -27,6 +27,12 @@ module CommitGuard
       end
     end
 
+    def perform
+      choose_guard([CommitGuard::Guards::Grep])
+      populate
+      confirm
+    end
+
     def confirm
       highline.say builder.preview.join("\n")
       result = highline.ask "Would you like to save this Guard? (Y/N)"
