@@ -17,7 +17,8 @@ describe CommitGuard::GuardPrompt do
 
   let(:input) { StringIO.new }
   let(:output) { StringIO.new }
-  let(:prompt) { described_class.new(input, output) }
+  let(:configuration) { double(:update_home => nil, :update_working => nil) }
+  let(:prompt) { described_class.new(configuration, input, output) }
 
   describe '#choose_guard' do
     it 'prompts the user to choose a guard' do
@@ -112,7 +113,7 @@ describe CommitGuard::GuardPrompt do
 
     it "includes the preview of the guard" do
       answer_with('n')
-      prompt.builder.stub(:preview => 'Guard preview')
+      prompt.builder.stub(:preview => ['Guard preview'])
       prompt.confirm
       output.string.should include("Guard preview")
     end
@@ -131,6 +132,33 @@ describe CommitGuard::GuardPrompt do
         answer_with('y')
         prompt.should_receive(:prompt_to_save)
         prompt.confirm
+      end
+    end
+  end
+
+  describe '#prompt_to_save' do
+    it 'asks the user which config to write to' do
+      answer_with('1')
+      prompt.prompt_to_save
+
+      output.string.should include("Where would you like to save this guard to?")
+      output.string.should include("1. Home directory")
+      output.string.should include("2. Working directory")
+    end
+
+    context 'when home directory is selected' do
+      it 'tells the configuration to save the prompt to the home directory' do
+        answer_with('1')
+        prompt.configuration.should_receive(:update_home).with(prompt.builder)
+        prompt.prompt_to_save
+      end
+    end
+
+    context 'when working directory is selected' do
+      it 'tells the configuration to save the prompt to the working directory' do
+        answer_with('2')
+        prompt.configuration.should_receive(:update_working).with(prompt.builder)
+        prompt.prompt_to_save
       end
     end
   end

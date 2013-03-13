@@ -2,10 +2,11 @@ require 'highline'
 module CommitGuard
   class GuardPrompt
 
-    attr_reader :highline
+    attr_reader :highline, :configuration
     attr_accessor :builder
 
-    def initialize(input = $stdin, output = $stdout)
+    def initialize(configuration, input = $stdin, output = $stdout)
+      @configuration = configuration
       @input = input
       @output = output
       @highline = HighLine.new(@input, @output)
@@ -27,7 +28,7 @@ module CommitGuard
     end
 
     def confirm
-      highline.say builder.preview
+      highline.say builder.preview.join("\n")
       result = highline.ask "Would you like to save this Guard? (Y/N)"
       if result.upcase == 'Y'
         prompt_to_save
@@ -35,7 +36,17 @@ module CommitGuard
     end
 
     def prompt_to_save
-
+      home_dir = 'Home directory'
+      working_dir = 'Working directory'
+      result = highline.choose do |menu|
+        menu.prompt = 'Where would you like to save this guard to?'
+        menu.choices(home_dir, working_dir)
+      end
+      if result == home_dir
+        configuration.update_home(builder)
+      elsif result == working_dir
+        configuration.update_working(builder)
+      end
     end
 
     def prompt_for_property(property)
