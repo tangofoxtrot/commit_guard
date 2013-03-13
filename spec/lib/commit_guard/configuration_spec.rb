@@ -30,6 +30,38 @@ describe CommitGuard::Configuration do
     end
   end
 
+  describe '#update_home' do
+    before { configuration.stub(:save) }
+    let(:builder_hash) { {:type => 'Awesome', :something => true} }
+    let(:builder) { double(:to_hash => builder_hash) }
+
+    it 'updates the home directory config with the builder' do
+      configuration.update_home(builder)
+      configuration.home_config['guards'].should include(builder_hash)
+    end
+
+    it 'saves the configuration' do
+      configuration.should_receive(:save)
+      configuration.update_home(builder)
+    end
+  end
+
+  describe '#update_working_dir' do
+    before { configuration.stub(:save) }
+    let(:builder_hash) { {:type => 'Awesome', :something => true} }
+    let(:builder) { double(:to_hash => builder_hash) }
+
+    it 'updates the working directory config with the builder' do
+      configuration.update_working_dir(builder)
+      configuration.working_dir_config['guards'].should include(builder_hash)
+    end
+
+    it 'saves the configuration' do
+      configuration.should_receive(:save)
+      configuration.update_working_dir(builder)
+    end
+  end
+
   describe '#save' do
     let(:stub_home_dir_config) { Tempfile.new('home_dir') }
     let(:stub_working_dir_config) { Tempfile.new('working_dir') }

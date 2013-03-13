@@ -22,6 +22,32 @@ module CommitGuard
       File.open(working_dir, 'w') {|f| f.puts working_dir_config.to_yaml }
     end
 
+    def update_home(builder)
+      guards_for(home_config)<< builder.to_hash
+      save
+    end
+
+    def update_working_dir(builder)
+      guards_for(working_dir_config) << builder.to_hash
+      save
+    end
+
+    def home_config
+      @home_config ||= begin
+        YAML.load_file(home_dir.join(CONFIG_FILENAME))
+      rescue Errno::ENOENT
+        {}
+       end
+    end
+
+    def working_dir_config
+      @working_dir_config ||= begin
+        YAML.load_file(working_dir.join(CONFIG_FILENAME))
+      rescue Errno::ENOENT
+        {}
+      end
+    end
+
     private
 
     def load_config
@@ -30,17 +56,11 @@ module CommitGuard
       end
     end
 
-    def home_config
-      @home_config ||= YAML.load_file(home_dir.join(CONFIG_FILENAME))
-    rescue Errno::ENOENT
-      {}
+    def guards_for(hsh)
+      hsh['guards'] = [] unless hsh.has_key?('guards')
+      hsh['guards']
     end
 
-    def working_dir_config
-      @working_dir_config ||= YAML.load_file(working_dir.join(CONFIG_FILENAME))
-    rescue Errno::ENOENT
-      {}
-    end
 
     def process_options(options)
       @guards.concat Array(options['guards'])
