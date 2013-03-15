@@ -44,6 +44,10 @@ module CommitGuard
       option_for :description
     end
 
+    def to_hash
+      {name.to_s => value}
+    end
+
 
     private
 

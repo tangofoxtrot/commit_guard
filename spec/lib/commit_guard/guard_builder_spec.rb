@@ -90,4 +90,19 @@ describe CommitGuard::GuardBuilder do
       builder.preview.last[1].should == ['a', 'b']
     end
   end
+
+  describe '#to_hash' do
+    it 'returns a hash of the properties and values' do
+      builder.property(:more_things, :multiple => true)
+
+      builder.set(:more_things, 'a')
+      builder.set(:more_things, 'b')
+      builder.set(:thing, 1)
+
+      builder.to_hash.should include({'type' => builder.name})
+      builder.properties.each do |prop|
+        builder.to_hash.should include(prop.to_hash)
+      end
+    end
+  end
 end

@@ -88,13 +88,20 @@ describe CommitGuard::GuardProperty do
       end
 
     end
+
     context 'when the property is not required' do
       before { property.stub(:required? => false) }
 
       it 'is always valid' do
         property.should be_valid
       end
+    end
+  end
 
+  describe '#to_hash' do
+    it 'returns a hash of the name and value' do
+      property.value = 'awesome'
+      property.to_hash.should == {property.name.to_s => property.value}
     end
   end
 

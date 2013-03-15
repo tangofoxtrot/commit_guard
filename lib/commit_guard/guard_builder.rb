@@ -48,5 +48,13 @@ module CommitGuard
       instance_eval &block
     end
 
+    def to_hash
+      hsh = {'type' => name}
+      properties.each do |prop|
+        hsh.merge!(prop.to_hash)
+      end
+      hsh
+    end
+
   end
 end
