@@ -58,7 +58,8 @@ module CommitGuard
         highline.say "#{property.name} is required".colorize(:red)
         property.value = prompt.call
       end
-      if property.multiple?
+
+      if !property.blank? && property.multiple?
         highline.say "#{property.name}: Add additional values (leave blank when finished)"
         value = prompt.call
         until value == ''

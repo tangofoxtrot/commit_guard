@@ -76,6 +76,13 @@ describe CommitGuard::GuardPrompt do
 
         output.string.should include("#{property.name}: Add additional values (leave blank when finished)")
       end
+
+      it 'does not prompt the user a second time if the first value is blank' do
+        prompt.builder = StubGuard.builder
+        prompt.highline.should_receive(:ask).exactly(1).times.and_return('')
+
+        prompt.prompt_for_property(property)
+      end
     end
 
     context 'when given an invalid value for a required property' do
@@ -118,7 +125,6 @@ describe CommitGuard::GuardPrompt do
       prompt.confirm
       output.string.should include("Guard preview")
     end
-
 
     context "the user does not want to continue" do
       it "does not call prompt_to_save" do

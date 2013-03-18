@@ -48,6 +48,9 @@ module CommitGuard
       {name.to_s => value}
     end
 
+    def blank?
+      !has_value?
+    end
 
     private
 

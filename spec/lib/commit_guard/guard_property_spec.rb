@@ -105,4 +105,14 @@ describe CommitGuard::GuardProperty do
     end
   end
 
+  describe '#blank?' do
+    it 'delegates to has_value?' do
+      property.stub(:has_value? => true)
+      property.should_not be_blank
+
+      property.stub(:has_value? => false)
+      property.should be_blank
+    end
+  end
+
 end
