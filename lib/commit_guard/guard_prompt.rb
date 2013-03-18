@@ -15,10 +15,10 @@ module CommitGuard
     def choose_guard(guards = [])
       result = highline.choose do |menu|
         menu.prompt = 'Select a Guard'
-        menu.choices(*guards.map(&:name))
+        menu.choices(*guards.map(&:title))
       end
 
-      self.builder = guards.detect {|x| x.name == result}.builder
+      self.builder = guards.detect {|x| x.title == result}.builder
     end
 
     def populate

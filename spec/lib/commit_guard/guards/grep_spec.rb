@@ -9,6 +9,12 @@ describe CommitGuard::Guards::Grep do
   let(:configuration) { stub(:working_dir => dir) }
   let(:guard) { described_class.new(configuration, options) }
 
+  describe '#yaml_name' do
+    it 'returns the yaml_name of the guard' do
+      guard.yaml_name.should == "Grep"
+    end
+  end
+
   context 'given a valid directory' do
 
     it 'is valid' do
@@ -64,7 +70,6 @@ describe CommitGuard::Guards::Grep do
       guard.display.should == "#{guard.title}\n#{guard.description}"
     end
   end
-
 
   describe '.builder' do
     let(:builder) { described_class.builder }

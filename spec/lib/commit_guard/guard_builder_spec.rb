@@ -1,7 +1,16 @@
 require 'spec_helper'
 
 describe CommitGuard::GuardBuilder do
-  class MyGuard; end
+  class MyGuard
+    def self.title
+      "Awesome"
+    end
+
+    def self.yaml_name
+      "Awesome"
+    end
+  end
+
   let(:builder) { described_class.new(MyGuard) }
 
   before do
@@ -17,6 +26,18 @@ describe CommitGuard::GuardBuilder do
   describe '#name' do
     it 'returns the name of the class' do
       builder.name.should == 'MyGuard'
+    end
+  end
+
+  describe '#title' do
+    it 'returns the title of the class' do
+      builder.title.should == MyGuard.title
+    end
+  end
+
+  describe '#yaml_name' do
+    it 'returns the yaml_name of the class' do
+      builder.yaml_name.should == MyGuard.yaml_name
     end
   end
 
@@ -72,7 +93,7 @@ describe CommitGuard::GuardBuilder do
 
   describe '#preview' do
     it 'includes the name of the guard' do
-      builder.preview[0].should == ['Name', builder.name]
+      builder.preview[0].should == ['Name', builder.title]
     end
 
     it 'includes all properties' do
@@ -99,7 +120,7 @@ describe CommitGuard::GuardBuilder do
       builder.set(:more_things, 'b')
       builder.set(:thing, 1)
 
-      builder.to_hash.should include({'type' => builder.name})
+      builder.to_hash.should include({'type' => builder.yaml_name})
       builder.properties.each do |prop|
         builder.to_hash.should include(prop.to_hash)
       end

@@ -11,6 +11,14 @@ module CommitGuard
       for_class.name
     end
 
+    def title
+      for_class.title
+    end
+
+    def yaml_name
+      for_class.yaml_name
+    end
+
     def property(*args)
       properties << GuardProperty.new(*args)
     end
@@ -37,7 +45,7 @@ module CommitGuard
 
     def preview
       preview_output = []
-      preview_output <<  ['Name', name]
+      preview_output <<  ['Name', title]
       properties.each do |property|
         preview_output << ["Property (#{property.name})", property.value]
       end
@@ -49,7 +57,7 @@ module CommitGuard
     end
 
     def to_hash
-      hsh = {'type' => name}
+      hsh = {'type' => yaml_name}
       properties.each do |prop|
         hsh.merge!(prop.to_hash)
       end
