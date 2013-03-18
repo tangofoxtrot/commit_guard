@@ -48,4 +48,10 @@ describe CommitGuard::Configuration do
     end
   end
 
+  describe '#pwd' do
+    it 'returns the working dir path' do
+      configuration.pwd.should == valid_project
+    end
+  end
+
 end

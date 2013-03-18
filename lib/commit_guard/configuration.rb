@@ -1,11 +1,11 @@
 require 'yaml'
 module CommitGuard
   class Configuration
-    attr_reader :guards, :output
+    attr_reader :guards, :output, :pwd
 
     def initialize(home_dir, working_dir, options={})
       config_files << CommitGuard::ConfigFile.new('Home Directory', home_dir)
-      config_files << CommitGuard::ConfigFile.new('Working Directory', working_dir)
+      config_files << @pwd = CommitGuard::ConfigFile.new('Working Directory', working_dir)
       @guards = []
       @output = $stdout
       @options = options
@@ -28,6 +28,10 @@ module CommitGuard
       config = find_config(config_name)
       config.guards << builder.to_hash
       config.save
+    end
+
+    def pwd
+     @pwd.dir
     end
 
     private

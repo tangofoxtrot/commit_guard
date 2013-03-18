@@ -2,11 +2,11 @@ require 'spec_helper'
 
 describe CommitGuard::Guards::Grep do
   let(:options) do
-    {'path' => ['features'], 'regex' => '@firebug'  }
+    {'path' => ['features'], 'pattern' => '@firebug'  }
   end
 
   let(:dir) { valid_project }
-  let(:configuration) { stub(:working_dir => dir) }
+  let(:configuration) { stub(:pwd => dir) }
   let(:guard) { described_class.new(configuration, options) }
 
   describe '#yaml_name' do

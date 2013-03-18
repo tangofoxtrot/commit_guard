@@ -11,13 +11,13 @@ module CommitGuard
       end
 
       def paths
-        Array(options['path']).map {|path| working_dir.join(path) }
+        Array(options['path']).map {|path| pwd.join(path) }
       end
 
       private
 
       def command
-        "fgrep -R -n #{options['regex']} -s #{paths.join(" ")} #{exclude_dir_options}"
+        "fgrep -R -n #{options['pattern']} -s #{paths.join(" ")} #{exclude_dir_options}"
       end
 
       def exclude_dirs
@@ -28,8 +28,8 @@ module CommitGuard
         exclude_dirs.map{|x| "| grep -v #{x}" }.join(' ')
       end
 
-      def working_dir
-        configuration.working_dir
+      def pwd
+        configuration.pwd
       end
 
     end
