@@ -42,17 +42,11 @@ module CommitGuard
     end
 
     def prompt_to_save
-      home_dir = 'Home directory'
-      working_dir = 'Working directory'
       result = highline.choose do |menu|
         menu.prompt = 'Where would you like to save this guard to?'
-        menu.choices(home_dir, working_dir)
+        menu.choices(*configuration.config_names)
       end
-      if result == home_dir
-        configuration.update_home(builder)
-      elsif result == working_dir
-        configuration.update_working(builder)
-      end
+      configuration.add_guard(result, builder)
     end
 
     def prompt_for_property(property)

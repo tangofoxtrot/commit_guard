@@ -17,7 +17,8 @@ describe CommitGuard::GuardPrompt do
 
   let(:input) { StringIO.new }
   let(:output) { StringIO.new }
-  let(:configuration) { double(:update_home => nil, :update_working => nil) }
+  let(:config_file) { double(:name => 'Home Dir')}
+  let(:configuration) { double(:add_guard => nil, :config_files => [config_file], :config_names => [config_file.name]) }
   let(:prompt) { described_class.new(configuration, input, output) }
 
   describe '#choose_guard' do
@@ -142,25 +143,17 @@ describe CommitGuard::GuardPrompt do
       prompt.prompt_to_save
 
       output.string.should include("Where would you like to save this guard to?")
-      output.string.should include("1. Home directory")
-      output.string.should include("2. Working directory")
-    end
-
-    context 'when home directory is selected' do
-      it 'tells the configuration to save the prompt to the home directory' do
-        answer_with('1')
-        prompt.configuration.should_receive(:update_home).with(prompt.builder)
-        prompt.prompt_to_save
+      configuration.config_files.each_with_index do |config, index|
+        output.string.should include("#{index + 1}. #{config.name}")
       end
     end
 
-    context 'when working directory is selected' do
-      it 'tells the configuration to save the prompt to the working directory' do
-        answer_with('2')
-        prompt.configuration.should_receive(:update_working).with(prompt.builder)
-        prompt.prompt_to_save
-      end
+    it 'tells the configuration to save the prompt to the appropriate config' do
+      answer_with('1')
+      prompt.configuration.should_receive(:add_guard).with(config_file.name, prompt.builder)
+      prompt.prompt_to_save
     end
+
   end
 
   describe '#perform' do

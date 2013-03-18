@@ -1,12 +1,11 @@
 require 'yaml'
 module CommitGuard
   class Configuration
-    CONFIG_FILENAME = '.commit_guard.yml'
-    attr_reader :guards, :working_dir, :home_dir, :output
+    attr_reader :guards, :output
 
     def initialize(home_dir, working_dir, options={})
-      @home_dir = home_dir
-      @working_dir = working_dir
+      config_files << CommitGuard::ConfigFile.new('Home Directory', home_dir)
+      config_files << CommitGuard::ConfigFile.new('Working Directory', working_dir)
       @guards = []
       @output = $stdout
       @options = options
@@ -17,53 +16,34 @@ module CommitGuard
       @options[:silent]
     end
 
-    def save
-      File.open(home_dir, 'w') {|f| f.puts home_config.to_yaml }
-      File.open(working_dir, 'w') {|f| f.puts working_dir_config.to_yaml }
+    def config_names
+      config_files.map(&:name)
     end
 
-    def update_home(builder)
-      guards_for(home_config)<< builder.to_hash
-      save
+    def config_files
+      @config_files ||= []
     end
 
-    def update_working_dir(builder)
-      guards_for(working_dir_config) << builder.to_hash
-      save
-    end
-
-    def home_config
-      @home_config ||= begin
-        YAML.load_file(home_dir.join(CONFIG_FILENAME))
-      rescue Errno::ENOENT
-        {}
-       end
-    end
-
-    def working_dir_config
-      @working_dir_config ||= begin
-        YAML.load_file(working_dir.join(CONFIG_FILENAME))
-      rescue Errno::ENOENT
-        {}
-      end
+    def add_guard(config_name, builder)
+      config = find_config(config_name)
+      config.guards << builder.to_hash
+      config.save
     end
 
     private
 
+    def find_config(config_name)
+      config_files.detect {|x| x.name == config_name }
+    end
+
     def load_config
-      [home_config, working_dir_config].each do |config|
+      config_files.each do |config|
         process_options(config)
       end
     end
 
-    def guards_for(hsh)
-      hsh['guards'] = [] unless hsh.has_key?('guards')
-      hsh['guards']
-    end
-
-
-    def process_options(options)
-      @guards.concat Array(options['guards'])
+    def process_options(config)
+      @guards.concat config.guards
     end
   end
 end

@@ -8,7 +8,7 @@ describe CommitGuard::Runner do
   let(:runner) { described_class.new(valid_project, options) }
   describe 'initializing a new runner' do
     it 'builds a configuration using the home dir' do
-      runner.configuration.home_dir.to_s.should == ENV['HOME']
+      runner.configuration.config_files.first.dir.to_s.should == ENV['HOME']
     end
 
     it 'passes any options to the configuration object' do

@@ -1,5 +1,4 @@
 require 'spec_helper'
-require 'tempfile'
 
 describe CommitGuard::Configuration do
   let(:options) do
@@ -9,7 +8,7 @@ describe CommitGuard::Configuration do
 
   describe 'loading the home configuration' do
     it 'does not raise an error if a config is missing' do
-      expect { configuration.guards.should have(1).item }.to_not raise_error
+      expect { configuration.guards }.to_not raise_error
     end
 
     it 'reads the configuration from the .commit_guard.yml file' do
@@ -30,58 +29,22 @@ describe CommitGuard::Configuration do
     end
   end
 
-  describe '#update_home' do
-    before { configuration.stub(:save) }
-    let(:builder_hash) { {:type => 'Awesome', :something => true} }
-    let(:builder) { double(:to_hash => builder_hash) }
-
-    it 'updates the home directory config with the builder' do
-      configuration.update_home(builder)
-      configuration.home_config['guards'].should include(builder_hash)
-    end
-
-    it 'saves the configuration' do
-      configuration.should_receive(:save)
-      configuration.update_home(builder)
+  describe '#config_names' do
+    it 'returns an array of the config names' do
+      configuration.config_names.should == ['Home Directory', 'Working Directory']
     end
   end
 
-  describe '#update_working_dir' do
-    before { configuration.stub(:save) }
+  describe '#add_guard' do
     let(:builder_hash) { {:type => 'Awesome', :something => true} }
     let(:builder) { double(:to_hash => builder_hash) }
 
-    it 'updates the working directory config with the builder' do
-      configuration.update_working_dir(builder)
-      configuration.working_dir_config['guards'].should include(builder_hash)
-    end
+    it 'adds the new guard to the requested config file' do
+      config_file = configuration.config_files.first
+      config_file.should_receive(:save)
 
-    it 'saves the configuration' do
-      configuration.should_receive(:save)
-      configuration.update_working_dir(builder)
-    end
-  end
-
-  describe '#save' do
-    let(:stub_home_dir_config) { Tempfile.new('home_dir') }
-    let(:stub_working_dir_config) { Tempfile.new('working_dir') }
-    let(:changed_config) { {:some => :changes} }
-
-    before do
-      configuration.stub(:home_dir => Pathname.new(stub_home_dir_config.path))
-      configuration.stub(:working_dir => Pathname.new(stub_working_dir_config.path))
-      configuration.stub(:home_config => changed_config)
-      configuration.stub(:working_dir_config => changed_config)
-    end
-
-    it 'persists the home directory config to the yaml' do
-      configuration.save
-      YAML.load_file(stub_home_dir_config) == changed_config
-    end
-
-    it 'persists the working directory config to the yaml' do
-      configuration.save
-      YAML.load_file(stub_working_dir_config) == changed_config
+      configuration.add_guard(config_file.name, builder)
+      config_file.guards.should include(builder_hash)
     end
   end
 
