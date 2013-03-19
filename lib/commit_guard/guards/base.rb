@@ -3,12 +3,13 @@ module CommitGuard
     class Base
       class << self
         def build &block
-          @builder ||= CommitGuard::GuardBuilder.new(self)
-          @builder.config &block
+          @builder_config = block
         end
 
         def builder
-          @builder
+          new_builder = CommitGuard::GuardBuilder.new(self)
+          new_builder.config &@builder_config
+          new_builder
         end
 
         def title

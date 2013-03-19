@@ -88,5 +88,10 @@ describe CommitGuard::Guards::Grep do
       builder.property_for(:exclude).should be_multiple
     end
 
+    it 'returns a new instance of the configured builder' do
+      builder.set(:path, 'stuff')
+      new_builder = described_class.builder
+      new_builder.value(:path).should_not == builder.value(:path)
+    end
   end
 end

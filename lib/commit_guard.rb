@@ -8,6 +8,7 @@ require "commit_guard/guardian"
 require "commit_guard/configuration"
 require "commit_guard/config_file"
 require "commit_guard/runner"
+require "commit_guard/default_generator"
 module CommitGuard
   # Your code goes here...
 end

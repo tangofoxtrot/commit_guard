@@ -31,7 +31,7 @@ describe CommitGuard::GuardPrompt do
     it 'stores the guard builder' do
       answer_with(1)
       prompt.choose_guard([StubGuard])
-      prompt.builder.should == StubGuard.builder
+      prompt.builder.name.should == StubGuard.name
     end
   end
 
@@ -79,6 +79,7 @@ describe CommitGuard::GuardPrompt do
 
       it 'does not prompt the user a second time if the first value is blank' do
         prompt.builder = StubGuard.builder
+        property = prompt.builder.properties[2]
         prompt.highline.should_receive(:ask).exactly(1).times.and_return('')
 
         prompt.prompt_for_property(property)
