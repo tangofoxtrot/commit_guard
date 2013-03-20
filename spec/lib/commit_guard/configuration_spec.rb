@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe CommitGuard::Configuration do
   let(:options) do
-    {:silent => true}
+    double(:silent => true)
   end
   let(:configuration) { described_class.new(home_dir, valid_project, options) }
 

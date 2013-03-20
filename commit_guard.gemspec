@@ -18,6 +18,7 @@ Gem::Specification.new do |gem|
   gem.require_paths = ["lib"]
   gem.add_dependency 'colorize'
   gem.add_dependency 'highline'
+  gem.add_dependency 'commander'
   gem.add_development_dependency "rspec"
   gem.add_development_dependency "pry"
 end

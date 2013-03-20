@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe CommitGuard::Runner do
   let(:options) do
-    {:silent => true}
+    double(:silent => true)
   end
 
   let(:runner) { described_class.new(valid_project, options) }
