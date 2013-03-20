@@ -34,7 +34,10 @@ module CommitGuard
     end
 
     def confirm
-      highline.say builder.preview.join("\n")
+      builder.preview.each do |preview_item|
+        label = "#{preview_item[0]}:".colorize(:green)
+        highline.say "#{label} #{preview_item[1]}"
+      end
       result = highline.ask "Would you like to save this Guard? (Y/N)"
       if result.upcase == 'Y'
         prompt_to_save

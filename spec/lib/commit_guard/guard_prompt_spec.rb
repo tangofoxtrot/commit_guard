@@ -122,7 +122,7 @@ describe CommitGuard::GuardPrompt do
 
     it "includes the preview of the guard" do
       answer_with('n')
-      prompt.builder.stub(:preview => ['Guard preview'])
+      prompt.builder.stub(:preview => [['Name', 'Guard preview']])
       prompt.confirm
       output.string.should include("Guard preview")
     end
