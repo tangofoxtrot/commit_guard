@@ -2,6 +2,14 @@ module CommitGuard
   module Guards
     class Base
       class << self
+        def inherited(clazz)
+          @children ||= [] << clazz
+        end
+
+        def children
+          @children
+        end
+
         def build &block
           @builder_config = block
         end
