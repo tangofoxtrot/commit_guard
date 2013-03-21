@@ -17,8 +17,46 @@ Or install it yourself as:
     $ gem install commit_guard
 
 ## Usage
+Generate the default Guards by running:
 
-TODO: Write usage instructions here
+   $ commit_guard generate
+
+Add custom guards by running
+
+   $ commit_guard new
+
+Run commit_guard on a directory by running:
+
+   $ commit_guard
+
+Or
+
+   $ commit_guard run
+
+Commit Guard uses the current directory or takes an optional path
+
+   $ commit_guard run ~/some_project
+
+Commit Guard looks for a .commit_guard.yml file in the HOME dir as well
+as the project's dir.
+
+Any project specific guards should be added to the project dir's
+.commit_guard.yml
+
+Add commit guard to your project's pre-commit hook to guard
+automatically.
+ 
+  $vi .git/hooks/pre-commit
+
+Add the following:
+
+  $ #!/bin/sh
+  $ commit_guard . -s
+
+Then run:
+
+  $ chmod +x .git/hooks/pre-commit
+
 
 ## Contributing
 
