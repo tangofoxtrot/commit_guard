@@ -46,16 +46,16 @@ Any project specific guards should be added to the project dir's
 Add commit guard to your project's pre-commit hook to guard
 automatically.
  
-  $vi .git/hooks/pre-commit
+   $ vi .git/hooks/pre-commit
 
 Add the following:
 
-  $ #!/bin/sh
-  $ commit_guard . -s
+   $ #!/bin/sh
+   $ commit_guard . -s
 
 Then run:
 
-  $ chmod +x .git/hooks/pre-commit
+   $ chmod +x .git/hooks/pre-commit
 
 
 ## Contributing
