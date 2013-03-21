@@ -4,7 +4,7 @@ describe CommitGuard::Configuration do
   let(:options) do
     double(:silent => true)
   end
-  let(:configuration) { described_class.new(home_dir, valid_project, options) }
+  let(:configuration) { described_class.new(home_dir.to_s, valid_project.to_s, options) }
 
   describe 'loading the home configuration' do
     it 'does not raise an error if a config is missing' do

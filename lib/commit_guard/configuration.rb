@@ -4,8 +4,8 @@ module CommitGuard
     attr_reader :guards, :output, :pwd
 
     def initialize(home_dir, working_dir, options=nil)
-      config_files << CommitGuard::ConfigFile.new('Home Directory', home_dir)
-      config_files << @pwd = CommitGuard::ConfigFile.new('Working Directory', working_dir)
+      config_files << CommitGuard::ConfigFile.new('Home Directory', Pathname.new(home_dir))
+      config_files << @pwd = CommitGuard::ConfigFile.new('Working Directory', Pathname.new(working_dir))
       @guards = []
       @output = $stdout
       @options = options

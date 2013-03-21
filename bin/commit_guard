@@ -28,7 +28,7 @@ command :new do |c|
   c.example 'description', 'command example'
   c.action do |args, options|
     project_path = ENV['PWD']
-    configuration = CommitGuard::Configuration.new(Pathname.new(ENV['HOME']), Pathname.new(project_path), options)
+    configuration = CommitGuard::Configuration.new(ENV['HOME'], project_path, options)
     prompt = CommitGuard::GuardPrompt.new(configuration)
     prompt.run
   end
@@ -41,7 +41,7 @@ command :generate do |c|
   c.example 'description', 'command example'
   c.action do |args, options|
     project_path = ENV['PWD']
-    configuration = CommitGuard::Configuration.new(Pathname.new(ENV['HOME']), Pathname.new(project_path), options)
+    configuration = CommitGuard::Configuration.new(ENV['HOME'], project_path, options)
     generator = CommitGuard::DefaultGenerator.new(configuration)
     generator.run
   end
