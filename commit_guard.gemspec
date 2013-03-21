@@ -8,9 +8,10 @@ Gem::Specification.new do |gem|
   gem.version       = CommitGuard::VERSION
   gem.authors       = ["Richard Luther"]
   gem.email         = ["richard.luther@gmail.com"]
-  gem.description   = %q{Ruby library for preventing unwanted code from being committed}
-  gem.summary       = %q{Ruby library for preventing unwanted code from being committed}
-  gem.homepage      = ""
+  gem.description   = %q{Prevent unwanted code from being committed (sleep, debugger, bindin.pry). 
+    Commit Guard allows the user to define custom rules at both the global and project level}
+  gem.summary       = %q{Command line utility for preventing unwanted code from being committed}
+  gem.homepage      = "http://github.com/tangofoxtrot/commit_guard"
 
   gem.files         = `git ls-files`.split($/)
   gem.executables   = gem.files.grep(%r{^bin/}).map{ |f| File.basename(f) }
