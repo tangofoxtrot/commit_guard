@@ -163,12 +163,12 @@ describe CommitGuard::GuardPrompt do
 
   end
 
-  describe '#perform' do
+  describe '#run' do
     it 'prompts the user to build up a guard' do
       prompt.should_receive(:choose_guard).ordered.with([CommitGuard::Guards::Grep])
       prompt.should_receive(:populate).ordered
       prompt.should_receive(:confirm).ordered
-      prompt.perform
+      prompt.run
     end
   end
 end

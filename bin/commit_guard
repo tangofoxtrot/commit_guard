@@ -30,7 +30,7 @@ command :new do |c|
     project_path = ENV['PWD']
     configuration = CommitGuard::Configuration.new(Pathname.new(ENV['HOME']), Pathname.new(project_path), options)
     prompt = CommitGuard::GuardPrompt.new(configuration)
-    prompt.perform
+    prompt.run
   end
 end
 

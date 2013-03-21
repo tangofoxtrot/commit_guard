@@ -27,7 +27,7 @@ module CommitGuard
       end
     end
 
-    def perform
+    def run
       choose_guard(CommitGuard::Guards::Base.children)
       populate
       confirm
