@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe CommitGuard::Guards::Grep do
   let(:options) do
-    {'path' => ['features'], 'pattern' => '@firebug'  }
+    {'path' => ['features'], 'pattern' => '@firebug', :exlude => ['']  }
   end
 
   let(:dir) { valid_project }

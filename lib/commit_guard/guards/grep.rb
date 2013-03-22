@@ -25,11 +25,11 @@ module CommitGuard
       end
 
       def exclude_dirs
-        Array(options['exclude'])
+        Array(options['exclude']).select {|x| !x.nil? && x != '' }
       end
 
       def exclude_dir_options
-        exclude_dirs.map{|x| "| grep -v #{x}" }.join(' ')
+        exclude_dirs.map{|x| "| grep -v #{x}" }.join(' ') unless exclude_dirs.empty?
       end
 
       def pwd
