@@ -34,7 +34,7 @@ describe CommitGuard::Guards::Grep do
     end
 
     it 'returns the title of the guard' do
-      guard.title.should == "Grep Guard"
+      guard.title.should == "Grep Guard [#{options['pattern']}]"
     end
 
     it 'returns the invalid description' do

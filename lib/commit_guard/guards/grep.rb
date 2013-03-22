@@ -14,6 +14,10 @@ module CommitGuard
         Array(options['path']).map {|path| pwd.join(path) }
       end
 
+      def title
+        "#{self.class.name.split("::").last} Guard [#{options['pattern']}]"
+      end
+
       private
 
       def command
