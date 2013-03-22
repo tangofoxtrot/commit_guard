@@ -5,9 +5,10 @@ require 'commit_guard'
 require 'commander/import'
 
 
-def project_path
-  ARGV[0] || ENV['PWD']
+def project_path(args)
+  args.first || ENV['PWD']
 end
+
 program :version, CommitGuard::VERSION
 program :description, 'Command line utility for preventing unwanted code from making it into commits'
 
@@ -18,7 +19,7 @@ command :run do |c|
   c.example 'description', 'command example'
   c.option '-s', '--silent', 'Run the commit guard without displaying the output from passing guards'
   c.action do |args, options|
-    runner = CommitGuard::Runner.new(project_path, options)
+    runner = CommitGuard::Runner.new(project_path(args), options)
     runner.run
     exit runner.exit_status
   end
@@ -30,7 +31,7 @@ command :new do |c|
   c.description = ''
   c.example 'description', 'command example'
   c.action do |args, options|
-    configuration = CommitGuard::Configuration.new(ENV['HOME'], project_path, options)
+    configuration = CommitGuard::Configuration.new(ENV['HOME'], project_path(args), options)
     prompt = CommitGuard::GuardPrompt.new(configuration)
     prompt.run
   end
@@ -42,7 +43,7 @@ command :generate do |c|
   c.description = ''
   c.example 'description', 'command example'
   c.action do |args, options|
-    configuration = CommitGuard::Configuration.new(ENV['HOME'], project_path, options)
+    configuration = CommitGuard::Configuration.new(ENV['HOME'], project_path(args), options)
     generator = CommitGuard::DefaultGenerator.new(configuration)
     generator.run
   end
