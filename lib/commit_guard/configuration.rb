@@ -34,6 +34,10 @@ module CommitGuard
      @pwd.dir
     end
 
+    def requires
+      config_files.map {|x| x.requires }.inject(&:+)
+    end
+
     private
 
     def find_config(config_name)

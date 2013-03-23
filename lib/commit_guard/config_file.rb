@@ -21,6 +21,10 @@ module CommitGuard
                   end
     end
 
+    def requires
+      (config['requires'] ||= []).map {|x| dir.join(x).to_s }
+    end
+
     def guards
       config['guards'] = [] unless config.has_key?('guards')
       config['guards']

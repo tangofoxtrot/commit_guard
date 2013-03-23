@@ -4,6 +4,7 @@ module CommitGuard
     def initialize(configuration)
       @configuration = configuration
       @guards = []
+      require_guards
       initialize_guards
     end
 
@@ -32,6 +33,16 @@ module CommitGuard
       end
     end
 
+    def require_guards
+
+      @configuration.requires.each do |f|
+        begin
+          require f
+        rescue LoadError
+        end
+      end
+    end
+
     def initialize_guards
       @configuration.guards.each do |guard|
         guards << initialize_guard(guard)
@@ -41,5 +52,6 @@ module CommitGuard
     def initialize_guard(guard_config)
       CommitGuard::Guards.const_get(guard_config['type'].capitalize).new(configuration, guard_config)
     end
+
   end
 end

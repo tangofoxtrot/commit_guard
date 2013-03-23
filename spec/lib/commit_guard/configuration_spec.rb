@@ -54,4 +54,10 @@ describe CommitGuard::Configuration do
     end
   end
 
+  describe '#requires' do
+    it 'returns an array of requires from the configs' do
+      configuration.requires.should be_empty
+    end
+  end
+
 end

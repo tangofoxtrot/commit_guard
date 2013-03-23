@@ -47,4 +47,26 @@ describe CommitGuard::ConfigFile do
     end
   end
 
+  describe '#requires' do
+    context 'when the requires key is missing' do
+      it 'returns an empty array' do
+        config_file.requires.should be_empty
+      end
+    end
+
+    context 'when the config has a require' do
+      before do
+        config_file.config['requires'] = ['awesome']
+      end
+
+      it 'returns an array of the requires' do
+        config_file.requires.should have(1).item
+      end
+
+      it 'adds the dir to the file' do
+        config_file.requires.first.should == config_file.dir.join('awesome').to_s
+      end
+    end
+  end
+
 end
