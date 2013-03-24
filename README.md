@@ -85,7 +85,8 @@ class Awesomeguard < CommitGuard::Guards::Base
   def result
     'the result of calling #call'
   end
-end```
+end
+```
 
 Now you can add your custom guard to your configuration by running
 
