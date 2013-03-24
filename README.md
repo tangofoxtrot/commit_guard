@@ -19,23 +19,23 @@ Or install it yourself as:
 ## Usage
 Generate the default Guards by running:
 
-   $ commit_guard generate
+    $ commit_guard generate
 
 Add custom guards by running
 
-   $ commit_guard new
+    $ commit_guard new
 
 Run commit_guard on a directory by running:
 
-   $ commit_guard
+    $ commit_guard
 
 Or
 
-   $ commit_guard run
+    $ commit_guard run
 
 Commit Guard uses the current directory or takes an optional path
 
-   $ commit_guard run ~/some_project
+    $ commit_guard run ~/some_project
 
 Commit Guard looks for a .commit_guard.yml file in the HOME dir as well
 as the project's dir.
@@ -46,17 +46,16 @@ Any project specific guards should be added to the project dir's
 Add commit guard to your project's pre-commit hook to guard
 automatically.
  
-   $ vi .git/hooks/pre-commit
+    $ vi .git/hooks/pre-commit
 
 Add the following:
 
-   $ #!/bin/sh
-   $ commit_guard . -s
+    $ #!/bin/sh
+    $ commit_guard . -s
 
 Then run:
 
-   $ chmod +x .git/hooks/pre-commit
-
+    $ chmod +x .git/hooks/pre-commit
 
 ## Contributing
 
