@@ -1,6 +1,7 @@
 # CommitGuard
 
-TODO: Write a gem description
+Prevent unwanted code from being committed (sleep, debugger, bindin.pry). 
+Commit Guard allows the user to define custom rules at both the global and project level}
 
 ## Installation
 
@@ -21,7 +22,7 @@ Generate the default Guards by running:
 
     $ commit_guard generate
 
-Add custom guards by running
+Add additional guards by running
 
     $ commit_guard new
 
@@ -56,6 +57,38 @@ Add the following:
 Then run:
 
     $ chmod +x .git/hooks/pre-commit
+
+## Custom guards
+If your project requires a custom validation, CommitGuard can still
+help.
+
+First add the following to your .commit_guard.yml file:
+(builder support coing soon)
+
+    $ requires:
+    $ - 'lib/awesome_guard.rb'
+
+Custom guards must:
+* Inherit from CommitGuard::Guards::Base
+* Have a call method
+* #call must return self
+* Have a result method
+
+Here is an example custom guard:
+`class Awesomeguard < CommitGuard::Guards::Base
+  def call
+    # some thing that needs to happen
+    self
+  end
+
+  def result
+    'the result of calling #call'
+  end
+end`
+
+Now you can add your custom guard to your configuration by running
+
+    $ commit_guard new
 
 ## Contributing
 

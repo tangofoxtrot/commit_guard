@@ -2,7 +2,6 @@ require 'colorize'
 module CommitGuard
   module Guards
     class Grep < Base
-      attr_reader :options, :result
 
       build do
         property :pattern, :description => 'Grep pattern', :required => true

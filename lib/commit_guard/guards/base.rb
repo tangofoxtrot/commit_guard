@@ -29,6 +29,8 @@ module CommitGuard
         end
       end
 
+      attr_reader :options, :result
+
       def initialize(configuration, options={})
         @configuration = configuration
         @options = options
