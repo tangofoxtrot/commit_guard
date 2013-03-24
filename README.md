@@ -75,7 +75,8 @@ Custom guards must:
 * Have a result method
 
 Here is an example custom guard:
-`class Awesomeguard < CommitGuard::Guards::Base
+```ruby
+class Awesomeguard < CommitGuard::Guards::Base
   def call
     # some thing that needs to happen
     self
@@ -84,7 +85,7 @@ Here is an example custom guard:
   def result
     'the result of calling #call'
   end
-end`
+end```
 
 Now you can add your custom guard to your configuration by running
 
