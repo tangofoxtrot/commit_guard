@@ -3,7 +3,7 @@ module CommitGuard
     class Base
       class << self
         def inherited(clazz)
-          @children ||= [] << clazz
+          (@children ||= []) << clazz
         end
 
         def children

@@ -6,13 +6,23 @@ describe CommitGuard::Configuration do
   end
   let(:configuration) { described_class.new(home_dir.to_s, valid_project.to_s, options) }
 
-  describe 'loading the home configuration' do
-    it 'does not raise an error if a config is missing' do
-      expect { configuration.guards }.to_not raise_error
+  describe 'initializing' do
+    it 'reads the configuration from the ConfigFiles' do
+      configuration.guards.should have(1).item
     end
 
-    it 'reads the configuration from the .commit_guard.yml file' do
-      configuration.guards.should have(1).item
+    it 'requires files specified in the configs' do
+      configuration.stub(:requires => [fixture_path('my_custom_guard')])
+      expect {
+        configuration.require_guards
+        MyCustomGuard
+      }.to_not raise_exception
+    end
+
+    it 'does not blow up when loading a missing file' do
+      configuration.stub(:requires => ['asdasdsad'])
+      described_class.new(home_dir.to_s, valid_project.to_s, options)
+      expect { configuration.require_guards }.to_not raise_exception
     end
   end
 

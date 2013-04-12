@@ -165,7 +165,7 @@ describe CommitGuard::GuardPrompt do
 
   describe '#run' do
     it 'prompts the user to build up a guard' do
-      prompt.should_receive(:choose_guard).ordered.with([CommitGuard::Guards::Grep])
+      prompt.should_receive(:choose_guard).ordered.with(CommitGuard::Guards::Base.children)
       prompt.should_receive(:populate).ordered
       prompt.should_receive(:confirm).ordered
       prompt.run

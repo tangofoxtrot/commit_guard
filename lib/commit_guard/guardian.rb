@@ -4,7 +4,6 @@ module CommitGuard
     def initialize(configuration)
       @configuration = configuration
       @guards = []
-      require_guards
       initialize_guards
     end
 
@@ -30,16 +29,6 @@ module CommitGuard
          guards.select(&:invalid?)
       else
         guards
-      end
-    end
-
-    def require_guards
-
-      @configuration.requires.each do |f|
-        begin
-          require f
-        rescue LoadError
-        end
       end
     end
 

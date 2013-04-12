@@ -9,6 +9,7 @@ module CommitGuard
       @guards = []
       @output = $stdout
       @options = options
+      require_guards
       load_config
     end
 
@@ -36,6 +37,15 @@ module CommitGuard
 
     def requires
       config_files.map {|x| x.requires }.inject(&:+)
+    end
+
+    def require_guards
+      requires.each do |f|
+        begin
+          require f
+        rescue LoadError
+        end
+      end
     end
 
     private

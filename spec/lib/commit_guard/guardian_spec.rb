@@ -10,16 +10,6 @@ describe CommitGuard::Guardian do
       guardian.guards.should have(1).item
       guardian.guards.first.should be_a(CommitGuard::Guards::Grep)
     end
-
-    it 'requires files specified in the configs' do
-      guardian
-      expect { MyCustomGuard }.to_not raise_exception
-    end
-
-    it 'does not blow up when loading a missing file' do
-      configuration.stub(:requires => ['asdasdsad'])
-      expect { guardian }.to_not raise_exception
-    end
   end
 
   describe 'run' do
