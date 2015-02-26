@@ -1,6 +1,6 @@
 # CommitGuard
 
-Prevent unwanted code from being committed (sleep, debugger, bindin.pry). 
+Prevent unwanted code from being committed (sleep, debugger, binding.pry).
 Commit Guard allows the user to define custom rules at both the global and project level}
 
 ## Installation

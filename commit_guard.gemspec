@@ -8,7 +8,7 @@ Gem::Specification.new do |gem|
   gem.version       = CommitGuard::VERSION
   gem.authors       = ["Richard Luther"]
   gem.email         = ["richard.luther@gmail.com"]
-  gem.description   = %q{Prevent unwanted code from being committed (sleep, debugger, bindin.pry). 
+  gem.description   = %q{Prevent unwanted code from being committed (sleep, debugger, binding.pry)
     Commit Guard allows the user to define custom rules at both the global and project level}
   gem.summary       = %q{Command line utility for preventing unwanted code from being committed}
   gem.homepage      = "http://github.com/tangofoxtrot/commit_guard"
